@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GuitarHub — сайт про гитары</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#121a2d;
+      --text:#eef3ff;
+      --muted:#a8b3d6;
+      --accent:#ffb020;
+      --accent2:#6aa6ff;
+      --ok:#3ddc97;
+      --bad:#ff6b6b;
+      --border:rgba(255,255,255,.10);
+      --shadow:0 16px 50px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 550px at 10% 10%, rgba(255,176,32,.18), transparent 60%),
+        radial-gradient(900px 520px at 90% 30%, rgba(106,166,255,.18), transparent 60%),
+        var(--bg);
+      min-height:100vh;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{width:min(1150px,100%); margin:0 auto; padding:22px;}
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:14px 18px;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      backdrop-filter: blur(10px);
+      position:sticky; top:12px; z-index:10;
+    }
+    .logo{display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.3px;}
+    .logo-badge{
+      width:38px; height:38px; border-radius:12px;
+      background:linear-gradient(135deg, rgba(255,176,32,.95), rgba(255,176,32,.45));
+      display:grid; place-items:center; color:#1a1205; font-weight:1000;
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+    }
+    .menu{display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-weight:650; font-size:14px}
+    .menu a{padding:8px 10px; border-radius:12px}
+    .menu a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .btn{
+      border:0; cursor:pointer;
+      padding:10px 12px; border-radius:14px;
+      font-weight:800;
+      background:linear-gradient(135deg, rgba(255,176,32,.95), rgba(255,176,32,.55));
+      color:#1a1205;
+      transition:transform .06s ease, filter .2s ease;
+      white-space:nowrap;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.secondary{
+      background:transparent; color:var(--text);
+      border:1px solid var(--border);
+      font-weight:750;
+    }
+    .pill{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      margin-top:18px;
+    }
+    @media (max-width:900px){ .hero{grid-template-columns:1fr} }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), transparent 85%),
+                 rgba(18,26,45,.92);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+    h1{margin:0; font-size:clamp(26px,3vw,40px); line-height:1.15}
+    h2{margin:0 0 12px; font-size:20px}
+    .lead{margin:12px 0 0; color:var(--muted); font-size:15px; line-height:1.65}
+    .badges{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .badge{
+      font-size:13px; color:var(--text);
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      padding:8px 10px; border-radius:999px;
+    }
+    .badge strong{color:var(--accent)}
+    .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+
+    .mini{display:grid; gap:12px;}
+    .tile{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      border-radius:18px;
+      padding:14px;
+    }
+    .tile h3{margin:0 0 6px; font-size:16px}
+    .tile p{margin:0; color:var(--muted); font-size:13px; line-height:1.5}
+
+    .section{margin-top:18px}
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+    @media (max-width:900px){ .grid2{grid-template-columns:1fr} }
+
+    /* gallery */
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-bottom:12px;
+    }
+    .search{
+      flex:1;
+      display:flex; gap:10px; align-items:center;
+      padding:10px 12px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      min-width:260px;
+    }
+    .search input{
+      width:100%;
+      background:transparent;
+      border:0; outline:0;
+      color:var(--text);
+      font-size:14px;
+    }
+    select, input[type="number"]{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:16px;
+      outline:none;
+      font-weight:650;
+    }
+    .grid-products{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width:980px){ .grid-products{grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width:640px){ .grid-products{grid-template-columns: 1fr;} }
+
+    .product{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      border-radius:20px;
+      overflow:hidden;
+      display:grid;
+    }
+    .photo{
+      height:180px;
+      position:relative;
+      background:#0a0f1e;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .photo img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.02) contrast(1.02);}
+    .photo .corner{
+      position:absolute; left:10px; top:10px;
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .chip{
+      font-size:12px;
+      padding:6px 9px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(18,26,45,.70);
+      backdrop-filter: blur(8px);
+    }
+    .chip strong{color:var(--accent)}
+    .pinfo{padding:14px; display:grid; gap:10px;}
+    .pinfo h3{margin:0; font-size:16px}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; color:var(--muted); font-size:13px}
+    .tag{
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+    }
+    .row{
+      display:flex; justify-content:space-between; gap:10px; align-items:flex-end;
+      margin-top:4px;
+    }
+    .row b{font-size:18px}
+    .row small{color:var(--muted)}
+    .buy{display:flex; gap:10px; flex-wrap:wrap;}
+    .buy button{flex:1}
+
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;}
+    .hr{height:1px; background:rgba(255,255,255,.08); margin:14px 0;}
+    .hint{color:var(--muted); font-size:13px; line-height:1.55; margin:8px 0 0}
+
+    /* chords */
+    .chords{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+    }
+    @media (max-width:900px){ .chords{grid-template-columns:1fr} }
+    .chord-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+    @media (max-width:640px){ .chord-grid{grid-template-columns:repeat(2,1fr)} }
+    .ch{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      border-radius:18px;
+      padding:12px;
+      cursor:pointer;
+      transition:transform .06s ease, background .2s ease;
+    }
+    .ch:hover{background:rgba(255,255,255,.05)}
+    .ch:active{transform:translateY(1px)}
+    .ch b{display:block; margin-bottom:8px}
+    .diagram{
+      width:100%;
+      aspect-ratio: 4/5;
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.16);
+      display:grid;
+      place-items:center;
+      padding:10px;
+      background:rgba(0,0,0,.10);
+    }
+    .diagram svg{width:100%; height:100%}
+
+    /* tools */
+    .tools{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width:980px){ .tools{grid-template-columns:1fr 1fr;} }
+    @media (max-width:680px){ .tools{grid-template-columns:1fr;} }
+    .tool-title{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .tool-title b{font-size:16px}
+    .tool-controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px}
+    .big{
+      font-size:28px;
+      font-weight:900;
+      letter-spacing:.6px;
+    }
+    .status{font-size:13px; color:var(--muted)}
+    .bar{
+      height:10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06);
+      overflow:hidden;
+    }
+    .bar > div{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, rgba(106,166,255,.9), rgba(255,176,32,.85));
+    }
+
+    /* quiz */
+    .quizq{margin:0 0 8px; font-weight:800}
+    .opt{display:flex; gap:10px; flex-wrap:wrap}
+    .opt button{flex:1}
+    .good{color:var(--ok); font-weight:800}
+    .bad{color:var(--bad); font-weight:800}
+
+    footer{
+      margin:18px 0 6px;
+      color:var(--muted);
+      font-size:13px;
+      text-align:center;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%; bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(18,26,45,.95);
+      border:1px solid var(--border);
+      padding:10px 12px;
+      border-radius:14px;
+      color:var(--text);
+      display:none;
+      box-shadow:0 14px 50px rgba(0,0,0,.45);
+      max-width:min(700px,92vw);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <div class="logo">
+        <div class="logo-badge">🎸</div>
+        <div>
+          <div>GuitarHub</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:750">Сайт про гитары: виды • уход • аккорды • инструменты</div>
+        </div>
+      </div>
+
+      <div class="menu">
+        <a href="#guide">Гайд</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#chords">Аккорды</a>
+        <a href="#tools">Инструменты</a>
+        <a href="#quiz">Квиз</a>
+        <a href="#contacts">Контакты</a>
+      </div>
+
+      <div class="actions">
+        <span class="pill">⭐ Избранное: <b id="favCount">0</b></span>
+        <button class="btn secondary" onclick="scrollToId('tools')">Открыть инструменты</button>
+        <button class="btn" onclick="scrollToId('gallery')">Смотреть гитары</button>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="card">
+        <h1>Всё про гитары — от выбора до первых песен</h1>
+        <p class="lead">
+          Здесь собрана база по типам гитар, основам ухода, строям, аккордам и полезным инструментам.
+          А ещё — большая галерея с фото и подбором «какая гитара подойдёт тебе».
+        </p>
+        <div class="badges">
+          <div class="badge"><strong>Понятно</strong> новичку</div>
+          <div class="badge"><strong>Аккорды</strong> с диаграммами</div>
+          <div class="badge"><strong>Метроном</strong> + тюнер</div>
+          <div class="badge"><strong>Подбор</strong> по стилю</div>
+        </div>
+        <div class="hero-actions">
+          <button class="btn" onclick="scrollToId('guide')">С чего начать</button>
+          <button class="btn secondary" onclick="scrollToId('chords')">Учить аккорды</button>
+        </div>
+        <p class="hint">
+          Подсказка: в галерее есть поиск, фильтр по типу, стилю, цене и уровню. Можно добавлять в избранное ⭐.
+        </p>
+      </div>
+
+      <div class="mini">
+        <div class="tile card">
+          <h3>🎯 Быстрый подбор</h3>
+          <p>Выбери стиль и уровень — сайт подскажет подходящий тип гитары и “первый комплект”.</p>
+        </div>
+        <div class="tile card">
+          <h3>🧽 Уход и настройка</h3>
+          <p>Как менять струны, протирать гриф, хранить инструмент и что делать с дребезгом.</p>
+        </div>
+        <div class="tile card">
+          <h3>🎵 Практика</h3>
+          <p>Метроном, тюнер-частота, шпаргалка по строям и мини-тест по теории.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GUIDE -->
+    <section id="guide" class="section grid2">
+      <div class="card">
+        <h2>Гайд: какую гитару выбрать</h2>
+        <div class="hr"></div>
+        <p class="lead" style="margin-top:0">
+          <b>Акустика</b> — громкая, без усилителя, подходит для двора/песен/переборов.<br/>
+          <b>Классика (нейлон)</b> — мягкие струны, удобно учиться, часто для “испанки”.<br/>
+          <b>Электро</b> — нужна в связке с усилителем/комбиком, лучше для рока/метала.<br/>
+          <b>Бас</b> — низкие частоты, основа ритм-секции, обычно 4 струны.
+        </p>
+        <ul class="hint">
+          <li><b>Новичку:</b> выбирай инструмент, который удобно держать (вес/гриф) и который нравится внешне.</li>
+          <li><b>Размер:</b> если небольшой рост — смотри travel/3/4.</li>
+          <li><b>Струны:</b> на стальных сложнее пальцам, но звучание ярче.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Быстрый подбор под стиль</h2>
+        <div class="hr"></div>
+
+        <div class="toolbar" style="margin-bottom:0">
+          <select id="pickStyle">
+            <option value="rock">Рок / поп-рок</option>
+            <option value="metal">Метал</option>
+            <option value="pop">Поп / аккорды</option>
+            <option value="jazz">Джаз</option>
+            <option value="fingerstyle">Фингерстайл</option>
+          </select>
+          <select id="pickLevel">
+            <option value="new">Новичок</option>
+            <option value="mid">Уверенный</option>
+            <option value="pro">Продвинутый</option>
+          </select>
+          <button class="btn" onclick="runPicker()">Подобрать</button>
+        </div>
+
+        <div class="tile" style="margin-top:12px">
+          <div class="tool-title">
+            <b>Рекомендация</b>
+            <span class="pill" id="pickBadge">—</span>
+          </div>
+          <p class="lead" id="pickText" style="margin-top:8px">Выбери стиль и уровень, затем нажми «Подобрать».</p>
+          <p class="hint" id="pickKit"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="section card">
+      <h2>Галерея гитар</h2>
+      <p class="lead" style="margin-top:-4px">
+        Это не магазин. Тут примеры инструментов, чтобы разбираться в типах, звуке и назначении.
+      </p>
+
+      <div class="toolbar">
+        <div class="search" title="Поиск по названию / тегам">
+          🔎 <input id="q" placeholder="Например: strat, классика, бас, джаз..." oninput="renderGallery()" />
+        </div>
+
+        <select id="type" onchange="renderGallery()">
+          <option value="all">Все типы</option>
+          <option value="acoustic">Акустика</option>
+          <option value="classical">Классика (нейлон)</option>
+          <option value="electric">Электро</option>
+          <option value="bass">Бас</option>
+        </select>
+
+        <select id="skill" onchange="renderGallery()">
+          <option value="all">Любой уровень</option>
+          <option value="new">Новичок</option>
+          <option value="mid">Уверенный</option>
+          <option value="pro">Продвинутый</option>
+        </select>
+
+        <select id="sort" onchange="renderGallery()">
+          <option value="popular">Сначала популярные</option>
+          <option value="cheap">Сначала “дешевле”</option>
+          <option value="expensive">Сначала “дороже”</option>
+        </select>
+      </div>
+
+      <div id="products" class="grid-products"></div>
+
+      <p class="hint">
+        ⭐ Нажми “В избранное”, чтобы собрать свою подборку. Данные сохраняются в браузере.
+      </p>
+    </section>
+
+    <!-- CHORDS -->
+    <section id="chords" class="section card">
+      <h2>Аккорды (база)</h2>
+      <p class="lead" style="margin-top:-4px">Кликни по аккорду — справа появится диаграмма. Нотация: 6 струн (EADGBE).</p>
+
+      <div class="chords">
+        <div>
+          <div class="toolbar" style="margin-top:4px">
+            <div class="search">
+              🎼 <input id="cq" placeholder="Поиск аккорда: Am, C, Dm, G..." oninput="renderChords()" />
+            </div>
+            <select id="chGroup" onchange="renderChords()">
+              <option value="all">Все</option>
+              <option value="major">Мажор</option>
+              <option value="minor">Минор</option>
+              <option value="7">Септаккорды</option>
+            </select>
+          </div>
+
+          <div id="chordsList" class="chord-grid"></div>
+        </div>
+
+        <div class="tile">
+          <div class="tool-title">
+            <b>Диаграмма</b>
+            <span class="pill" id="chName">—</span>
+          </div>
+          <div class="diagram" id="diagram">
+            <span class="status">Выбери аккорд слева</span>
+          </div>
+          <p class="hint" id="chHint"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools" class="section card">
+      <h2>Инструменты для практики</h2>
+      <div class="tools">
+
+        <div class="tile">
+          <div class="tool-title">
+            <b>🎧 Метроном</b>
+            <span class="pill" id="metroState">выкл</span>
+          </div>
+
+          <div class="tool-controls">
+            <label class="pill">BPM:
+              <input id="bpm" type="number" min="40" max="240" value="90" style="width:88px; margin-left:8px">
+            </label>
+            <button class="btn" onclick="toggleMetronome()">Старт / Стоп</button>
+            <button class="btn secondary" onclick="tapTempo()">Tap</button>
+          </div>
+
+          <div class="hr"></div>
+          <div class="big"><span id="tick">—</span></div>
+          <div class="status">Совет: начни с 70–90 BPM и играй ровно четверти.</div>
+        </div>
+
+        <div class="tile">
+          <div class="tool-title">
+            <b>🎼 Тюнер (частота)</b>
+            <span class="pill">шпаргалка</span>
+          </div>
+          <p class="lead" style="margin-top:8px">
+            Стандартный строй (EADGBE):
+          </p>
+          <ul class="hint">
+            <li>6 струна: E2 ≈ <span class="kbd">82.41 Hz</span></li>
+            <li>5 струна: A2 ≈ <span class="kbd">110.00 Hz</span></li>
+            <li>4 струна: D3 ≈ <span class="kbd">146.83 Hz</span></li>
+            <li>3 струна: G3 ≈ <span class="kbd">196.00 Hz</span></li>
+            <li>2 струна: B3 ≈ <span class="kbd">246.94 Hz</span></li>
+            <li>1 струна: E4 ≈ <span class="kbd">329.63 Hz</span></li>
+          </ul>
+          <div class="hr"></div>
+          <p class="hint">Если хочешь, могу сделать “реальный микрофонный тюнер”, но это чуть сложнее и браузер попросит доступ к микрофону.</p>
+        </div>
+
+        <div class="tile">
+          <div class="tool-title">
+            <b>🧠 Тренажёр: интервалы по струнам</b>
+            <span class="pill" id="trainerState">готов</span>
+          </div>
+          <p class="lead" style="margin-top:8px">
+            Нажми “Сгенерировать” — получишь задание: струна + лад. Твоя цель — назвать ноту (для себя).
+          </p>
+          <div class="tool-controls">
+            <button class="btn" onclick="newTask()">Сгенерировать</button>
+            <button class="btn secondary" onclick="showAnswer()">Показать ответ</button>
+          </div>
+          <div class="hr"></div>
+          <div class="big" id="task">—</div>
+          <div class="bar" aria-hidden="true"><div id="prog"></div></div>
+          <div class="status" id="answer">Ответ скрыт</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="section grid2">
+      <div class="card">
+        <h2>Квиз: базовые знания</h2>
+        <p class="lead" style="margin-top:-4px">Просто чтобы закрепить. Нажимай вариант ответа.</p>
+        <div class="hr"></div>
+
+        <p class="quizq" id="qq">—</p>
+        <div class="opt" id="opts"></div>
+        <p class="hint" id="qres"></p>
+        <div class="tool-controls">
+          <button class="btn secondary" onclick="nextQuiz()">Следующий вопрос</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Контакты</h2>
+        <div class="meta" style="gap:12px">
+          <span class="tag">📍 Харьков</span>
+          <span class="tag">🕘 Пн–Сб: 10:00–19:00</span>
+          <span class="tag">✉️ maizesimon3@gmail.com</span>
+        </div>
+        <p class="lead" style="margin-top:10px">
+          Это учебный сайт “всё про гитары”. Можно допилить под твою школу: добавить раздел “История гитары”, “Табулатуры” или “Теория”.
+        </p>
+
+        <div class="hr"></div>
+        <div class="tool-title">
+          <b>⭐ Избранное</b>
+          <button class="btn secondary" onclick="showFavorites()">Показать список</button>
+        </div>
+        <p class="hint">Избранное хранится в браузере (localStorage).</p>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="y"></span> GuitarHub — учебный сайт про гитары (один HTML-файл)
+    </footer>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // ---------- helpers ----------
+    function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:"smooth", block:"start"}); }
+    function toast(msg){
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=> t.style.display="none", 1700);
+    }
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // ---------- favorites ----------
+    const LS_KEY = "guitarhub_favs_v1";
+    function loadFavs(){
+      try{ return new Set(JSON.parse(localStorage.getItem(LS_KEY) || "[]")); }
+      catch{ return new Set(); }
+    }
+    function saveFavs(set){
+      localStorage.setItem(LS_KEY, JSON.stringify([...set]));
+      document.getElementById("favCount").textContent = set.size;
+    }
+    let favs = loadFavs();
+    document.getElementById("favCount").textContent = favs.size;
+
+    // ---------- gallery data ----------
+    // (Фото: Unsplash. Это образовательный шаблон.)
+    const guitars = [
+      {
+        id:"ac1", name:"A-100 Acoustic (Dreadnought)", type:"acoustic", skill:"new", price:7990, popular:5,
+        tags:["аккорды","двор","универсал"], sound:"яркий, громкий", use:"песни, бой, перебор",
+        tip:"Смотри, чтобы гриф был удобный, а высота струн не слишком высокая.",
+        img:"https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?auto=format&fit=crop&w=1200&q=70"
+      },
+      {
+        id:"ac2", name:"Travel Acoustic (3/4)", type:"acoustic", skill:"new", price:9990, popular:4,
+        tags:["компакт","в дорогу","легкая"], sound:"средняя громкость", use:"поездки, практика",
+        tip:"Короткая мензура удобнее, но звук обычно чуть тоньше.",
+        img:"https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&w=1200&q=70"
+      },
+      {
+        id:"cl1", name:"Classical Nylon (Испанка)", type:"classical", skill:"new", price:8990, popular:4,
+        tags:["нейлон","мягко","классика"], sound:"мягкий, тёплый", use:"классика, обучение",
+        tip:"Нейлон мягче пальцам — часто лучший старт.",
+        img:"https://images.unsplash.com/photo-1458640904116-093b74971de9?auto=format&fit=crop&w=1200&q=70"
+      },
+      {
+        id:"el1", name:"Strat S-Style", type:"electric", skill:"new", price:14990, popular:5,
+        tags:["рок","поп","универсал"], sound:"от чистого до драйва", use:"рок, поп, каверы",
+        tip:"Для электро нужен комбик/интерфейс. Начни с чистого + лёгкий овердрайв.",
+        img:"https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1200&q=70"
+      },
+      {
+        id:"el2", name:"Tele T-Classic", type:"electric", skill:"mid", price:15990, popular:3,
+        tags:["инди","кранч","ритм"], sound:"звонкий, читаемый", use:"ритм-партии, инди",
+        tip:"Отлично режет микс, особенно на бриджевом звукоснимателе.",
+        img:"https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1200&q=70"
+      },
+      {
+        id:"el3", name:"Metal HH (2 хамбакера)", type:"electric", skill:"mid", price:19990, popular:4,
+        tags:["метал","хай-гейн","плотно"], sound:"жирный, мощный", use:"метал, хард-рок",
+        tip:"Хамбакеры меньше фонят и дают плотный перегруз.",
+        img:"https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&w=1200&q=70"
+      },
+      {
+        id:"ba1", name:"Bass B-4 (4 струны)", type:"bass", skill:"new", price:16990, popular:4,
+        tags:["грув","фанк","основа"], sound:"низ, атака", use:"бас-линии, грув",
+        tip:"Играй под метроном — бас держит ритм.",
+        img:"https://images.unsplash.com/photo-1525201548942-d8732f6617a0?auto=format&fit=crop&w=1200&q=70"
+      },
+      {
+        id:"ba2", name:"Bass LongScale", type:"bass", skill:"pro", price:21990, popular:3,
+        tags:["плотно","рок","сцена"], sound:"глубокий низ", use:"сцена, запись",
+        tip:"Длинная мензура даёт чётче низ, но тянуть струны сложнее.",
+        img:"https://images.unsplash.com/photo-1520975693411-b64a1a5ad0aa?auto=format&fit=crop&w=1200&q=70"
+      },
+      {
+        id:"ac3", name:"Fingerstyle Acoustic", type:"acoustic", skill:"mid", price:17990, popular:4,
+        tags:["фингерстайл","детализация","перебор"], sound:"детальный верх", use:"переборы, соло-акустика",
+        tip:"Ищи удобный вырез и стабильный строй по грифу.",
+        img:"https://images.unsplash.com/photo-1485579149621-3123dd979885?auto=format&fit=crop&w=1200&q=70"
+      }
+    ];
+
+    function typeLabel(t){
+      return t==="electric"?"Электро":t==="acoustic"?"Акустика":t==="classical"?"Классика":"Бас";
+    }
+    function skillLabel(s){
+      return s==="new"?"Новичок":s==="mid"?"Уверенный":"Продвинутый";
+    }
+    function money(n){
+      return new Intl.NumberFormat("ru-RU").format(n) + " грн";
+    }
+
+    function toggleFav(id){
+      if (favs.has(id)) { favs.delete(id); toast("Убрано из избранного"); }
+      else { favs.add(id); toast("Добавлено в избранное ⭐"); }
+      saveFavs(favs);
+      renderGallery();
+    }
+
+    function showFavorites(){
+      if (favs.size===0){ alert("Избранное пустое"); return; }
+      const items = guitars.filter(g=>favs.has(g.id)).map(g=>`• ${g.name} (${typeLabel(g.type)})`);
+      alert("Избранное:\n" + items.join("\n"));
+    }
+
+    function renderGallery(){
+      const q = document.getElementById("q").value.trim().toLowerCase();
+      const type = document.getElementById("type").value;
+      const skill = document.getElementById("skill").value;
+      const sort = document.getElementById("sort").value;
+
+      let list = guitars.filter(g=>{
+        const text = (g.name+" "+g.tags.join(" ")+" "+g.sound+" "+g.use).toLowerCase();
+        const okQ = !q || text.includes(q);
+        const okT = (type==="all") || (g.type===type);
+        const okS = (skill==="all") || (g.skill===skill);
+        return okQ && okT && okS;
+      });
+
+      if (sort==="cheap") list.sort((a,b)=>a.price-b.price);
+      if (sort==="expensive") list.sort((a,b)=>b.price-a.price);
+      if (sort==="popular") list.sort((a,b)=>b.popular-a.popular);
+
+      const wrap = document.getElementById("products");
+      wrap.innerHTML = "";
+      for (const g of list){
+        const isFav = favs.has(g.id);
+        const el = document.createElement("div");
+        el.className = "product";
+        el.innerHTML = `
+          <div class="photo">
+            <img src="${g.img}" alt="${g.name}">
+            <div class="corner">
+              <span class="chip"><strong>${typeLabel(g.type)}</strong></span>
+              <span class="chip">${skillLabel(g.skill)}</span>
+              <span class="chip">★ ${g.popular}/5</span>
+            </div>
+          </div>
+          <div class="pinfo">
+            <div>
+              <h3>${g.name}</h3>
+              <div class="meta">
+                ${g.tags.map(t=>`<span class="tag">${t}</span>`).join("")}
+              </div>
+              <div class="row">
+                <b>${money(g.price)}</b>
+                <small>${g.sound}</small>
+              </div>
+              <p class="hint" style="margin:8px 0 0">
+                <b>Для чего:</b> ${g.use}<br>
+                <b>Совет:</b> ${g.tip}
+              </p>
+            </div>
+            <div class="buy">
+              <button class="btn secondary" onclick="toggleFav('${g.id}')">${isFav ? "Убрать ⭐" : "В избранное ⭐"}</button>
+              <button class="btn" onclick="toast('Открыто: ${g.name}')">Подробнее</button>
+            </div>
+          </div>
+        `;
+        wrap.appendChild(el);
+      }
+    }
+
+    renderGallery();
+    saveFavs(favs);
+
+    // ---------- picker ----------
+    const picker = {
+      rock: {
+        new: {badge:"Электро или акустика", text:"Для рок/поп-рока подойдёт электро (универсально), но акустика тоже ок для аккордов и каверов.",
+              kit:"Старт-набор: гитара + тюнер + медиаторы + запас струн. Для электро: ещё кабель и небольшой комбик/интерфейс."},
+        mid: {badge:"Электро (S-Style / T-Style)", text:"Лучше электро: будет проще добиваться нужного тембра и играть с эффектами.",
+              kit:"Мини-сетап: комбик 10–20W или аудиоинтерфейс + софт, плюс кабель и ремень."},
+        pro: {badge:"Электро + эффекты", text:"Для записи/сцены удобнее электро и педали/процессор — гибкость звука.",
+              kit:"Про: процессор/педали, шумодав, качественный кабель, хороший сетап струн."}
+      },
+      metal: {
+        new: {badge:"Электро с хамбакерами", text:"Для метала лучше электро HH (2 хамбакера): плотнее звук и меньше фона.",
+              kit:"Старт: HH-гитара + комбик/плагин с хай-гейном + тюнер."},
+        mid: {badge:"Электро HH + настройка", text:"Удели внимание настройке мензуры и высоты струн — риффы будут чище.",
+              kit:"Добавь: медиаторы 0.88–1.14, шумодав (по желанию), толстые струны для пониженных строев."},
+        pro: {badge:"Пониженные строи", text:"Экспериментируй с Drop D/C, баритон-мензурой и жёсткой атакой.",
+              kit:"Про: калибр струн выше, настройка анкера, звукосниматели под стиль."}
+      },
+      pop: {
+        new: {badge:"Акустика или классика", text:"Для поп-аккордов отлично: акустика (ярко) или классика (мягко).",
+              kit:"Старт: каподастр, тюнер, набор медиаторов, струны."},
+        mid: {badge:"Акустика с каподастром", text:"Каподастр + ровный бой = половина успеха для каверов.",
+              kit:"Добавь: метроном, записывай себя на телефон и слушай ровность."},
+        pro: {badge:"Соло-акустика", text:"Добавляй переборы, арпеджио, украшения (hammer-on/pull-off).",
+              kit:"Про: хорошие струны, уход за грифом, стабильный строй."}
+      },
+      jazz: {
+        new: {badge:"Электро (чистый звук)", text:"Для джаза важно чистое звучание и контроль динамики.",
+              kit:"Старт: электро + чистый пресет, работай над ритмом и мягкой атакой."},
+        mid: {badge:"Тёплый тембр", text:"Используй нековый звукосниматель и тон-регулятор.",
+              kit:"Добавь: упражнения на аккордовые формы и свинг-ритм."},
+        pro: {badge:"Аккорды + импровизация", text:"Развивай гармонию и фразы, играй с метрономом на 2 и 4 долю.",
+              kit:"Про: запись своих джемов, анализ фраз."}
+      },
+      fingerstyle: {
+        new: {badge:"Акустика (удобный гриф)", text:"Фингерстайл требует удобства: комфортный гриф и стабильный строй.",
+              kit:"Старт: акустика + метроном, простые переборы."},
+        mid: {badge:"Детализация звука", text:"Работай над независимостью пальцев и чистотой нот.",
+              kit:"Добавь: упражнения на арпеджио и “бас+мелодия”."},
+        pro: {badge:"Сложные аранжировки", text:"Тэппинг, перкуссия по корпусу, смена позиций.",
+              kit:"Про: запись видео, отработка под клики."}
+      }
+    };
+
+    function runPicker(){
+      const s = document.getElementById("pickStyle").value;
+      const l = document.getElementById("pickLevel").value;
+      const r = picker[s][l];
+      document.getElementById("pickBadge").textContent = r.badge;
+      document.getElementById("pickText").textContent = r.text;
+      document.getElementById("pickKit").textContent = r.kit;
+      toast("Подбор готов ✅");
+    }
+
+    // ---------- chords ----------
+    const chordData = [
+      // name, group, strings(EADGBE): 6..1 frets (x muted, 0 open)
+      {name:"Am", group:"minor", frets:["x",0,2,2,1,0], hint:"Классический минор. Следи, чтобы 1-я струна звучала открыто."},
+      {name:"C",  group:"major", frets:["x",3,2,0,1,0], hint:"Не задевай 6-ю струну (она приглушена)."},
+      {name:"G",  group:"major", frets:[3,2,0,0,0,3], hint:"Можно играть и вариант G (3-2-0-0-3-3)."},
+      {name:"D",  group:"major", frets:["x","x",0,2,3,2], hint:"Треугольник на верхних струнах."},
+      {name:"Em", group:"minor", frets:[0,2,2,0,0,0], hint:"Очень удобный аккорд для старта."},
+      {name:"E",  group:"major", frets:[0,2,2,1,0,0], hint:"Следи за чистотой 3-й струны."},
+      {name:"Dm", group:"minor", frets:["x","x",0,2,3,1], hint:"Мизинец часто помогает удержать форму."},
+      {name:"A",  group:"major", frets:["x",0,2,2,2,0], hint:"Можно зажимать 2-2-2 одним пальцем (баррэ мини)."},
+      {name:"F",  group:"major", frets:[1,3,3,2,1,1], hint:"Полное баррэ. Тренируй прижим указательного."},
+      {name:"E7", group:"7",     frets:[0,2,0,1,0,0], hint:"Лёгкий септаккорд для блюза."},
+      {name:"A7", group:"7",     frets:["x",0,2,0,2,0], hint:"Хорошо звучит в песнях и блюзе."},
+      {name:"D7", group:"7",     frets:["x","x",0,2,1,2], hint:"Следи, чтобы 1-я струна звучала чисто."},
+    ];
+
+    function renderChords(){
+      const q = document.getElementById("cq").value.trim().toLowerCase();
+      const grp = document.getElementById("chGroup").value;
+      const list = chordData.filter(c=>{
+        const okQ = !q || c.name.toLowerCase().includes(q);
+        const okG = grp==="all" || c.group===grp;
+        return okQ && okG;
+      });
+
+      const wrap = document.getElementById("chordsList");
+      wrap.innerHTML = "";
+      for (const c of list){
+        const el = document.createElement("div");
+        el.className = "ch";
+        el.innerHTML = `
+          <b>${c.name}</b>
+          <div class="meta">
+            <span class="tag">${c.group==="major"?"мажор":c.group==="minor"?"минор":"7"}</span>
+            <span class="tag kbd">${c.frets.join(" ")}</span>
+          </div>
+        `;
+        el.onclick = ()=>selectChord(c.name);
+        wrap.appendChild(el);
+      }
+      if (list.length===0){
+        wrap.innerHTML = `<div class="pill">Ничего не найдено</div>`;
+      }
+    }
+
+    function chordSVG(frets){
+      // draw 6 strings x 5 frets
+      const W=220, H=260, pad=20;
+      const top=35, left=30, right=30, bottom=30;
+      const gridW=W-left-right, gridH=H-top-bottom;
+      const strings=6, fretsCount=5;
+
+      // determine starting fret for display
+      const nums = frets.filter(x=>x!=="x" && x!==0).map(Number);
+      const max = nums.length?Math.max(...nums):1;
+      let start = 1;
+      if (max>5) start = max-4;
+
+      const xStep = gridW/(strings-1);
+      const yStep = gridH/fretsCount;
+
+      let circles = "";
+      let topMarks = "";
+
+      // top marks X / O
+      for(let i=0;i<strings;i++){
+        const val = frets[i];
+        const x = left + i*xStep;
+        if (val==="x"){
+          topMarks += `<text x="${x}" y="${top-12}" text-anchor="middle" font-size="14" fill="rgba(255,255,255,.8)">x</text>`;
+        } else if (val===0){
+          topMarks += `<text x="${x}" y="${top-12}" text-anchor="middle" font-size="14" fill="rgba(255,255,255,.8)">o</text>`;
+        } else {
+          const fret = Number(val);
+          const displayFret = fret - start + 1;
+          const y = top + (displayFret-0.5)*yStep;
+          circles += `<circle cx="${x}" cy="${y}" r="9" fill="rgba(255,176,32,.95)" />`;
+        }
+      }
+
+      // grid
+      let lines = "";
+      // strings
+      for(let i=0;i<strings;i++){
+        const x = left + i*xStep;
+        lines += `<line x1="${x}" y1="${top}" x2="${x}" y2="${top+gridH}" stroke="rgba(255,255,255,.25)" stroke-width="2"/>`;
+      }
+      // frets
+      for(let f=0; f<=fretsCount; f++){
+        const y = top + f*yStep;
+        const w = (f===0 && start===1) ? 5 : 2;
+        lines += `<line x1="${left}" y1="${y}" x2="${left+gridW}" y2="${y}" stroke="rgba(255,255,255,.25)" stroke-width="${w}"/>`;
+      }
+
+      const label = start>1
+        ? `<text x="${left-10}" y="${top + 16}" text-anchor="end" font-size="12" fill="rgba(255,255,255,.7)">${start}fr</text>`
+        : "";
+
+      return `
+        <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chord diagram">
+          <rect x="0" y="0" width="${W}" height="${H}" rx="16" ry="16" fill="rgba(255,255,255,.02)" />
+          ${label}
+          ${topMarks}
+          ${lines}
+          ${circles}
+        </svg>
+      `;
+    }
+
+    function selectChord(name){
+      const c = chordData.find(x=>x.name===name);
+      if(!c) return;
+      document.getElementById("chName").textContent = name;
+      document.getElementById("diagram").innerHTML = chordSVG(c.frets);
+      document.getElementById("chHint").textContent = c.hint;
+      toast("Аккорд выбран: " + name);
+    }
+
+    renderChords();
+
+    // ---------- metronome ----------
+    let metroOn = false;
+    let metroTimer = null;
+    let tickState = false;
+    let audioCtx = null;
+
+    function beep(){
+      // simple WebAudio click
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = "square";
+      o.frequency.value = tickState ? 880 : 660;
+      g.gain.value = 0.06;
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start();
+      o.stop(audioCtx.currentTime + 0.05);
+    }
+
+    function toggleMetronome(){
+      const bpm = clampBpm(Number(document.getElementById("bpm").value || 90));
+      document.getElementById("bpm").value = bpm;
+
+      metroOn = !metroOn;
+      document.getElementById("metroState").textContent = metroOn ? "вкл" : "выкл";
+      if (!metroOn){
+        clearInterval(metroTimer);
+        metroTimer = null;
+        document.getElementById("tick").textContent = "—";
+        return;
+      }
+
+      const interval = Math.round(60000 / bpm);
+      document.getElementById("tick").textContent = "●";
+      tickState = false;
+
+      beep();
+      metroTimer = setInterval(()=>{
+        tickState = !tickState;
+        document.getElementById("tick").textContent = tickState ? "●" : "○";
+        beep();
+      }, interval);
+    }
+
+    function clampBpm(v){
+      if (!Number.isFinite(v)) return 90;
+      return Math.min(240, Math.max(40, Math.round(v)));
+    }
+
+    let tapTimes = [];
+    function tapTempo(){
+      const now = Date.now();
+      tapTimes.push(now);
+      tapTimes = tapTimes.slice(-6);
+      if (tapTimes.length >= 3){
+        const diffs = [];
+        for (let i=1;i<tapTimes.length;i++) diffs.push(tapTimes[i]-tapTimes[i-1]);
+        const avg = diffs.reduce((a,b)=>a+b,0)/diffs.length;
+        const bpm = clampBpm(60000/avg);
+        document.getElementById("bpm").value = bpm;
+        toast("Tap BPM: " + bpm);
+        if (metroOn){
+          toggleMetronome();
+          toggleMetronome();
+        }
+      } else {
+        toast("Tap… ("+tapTimes.length+")");
+      }
+    }
+
+    // ---------- trainer ----------
+    const openNotes = [
+      {string:6, name:"E", midi:40},
+      {string:5, name:"A", midi:45},
+      {string:4, name:"D", midi:50},
+      {string:3, name:"G", midi:55},
+      {string:2, name:"B", midi:59},
+      {string:1, name:"E", midi:64},
+    ];
+    const noteNames = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+    let currentTask = null;
+    let progress = 0;
+
+    function midiToName(m){
+      const n = noteNames[m % 12];
+      const oct = Math.floor(m/12)-1;
+      return n + oct;
+    }
+    function newTask(){
+      const s = openNotes[Math.floor(Math.random()*openNotes.length)];
+      const fret = Math.floor(Math.random()*13); // 0-12
+      const midi = s.midi + fret;
+      currentTask = {string:s.string, fret, ans:midiToName(midi)};
+      document.getElementById("task").textContent = `Струна ${s.string}, лад ${fret}`;
+      document.getElementById("answer").textContent = "Ответ скрыт";
+      document.getElementById("trainerState").textContent = "задача";
+      progress = Math.min(100, progress + 12);
+      document.getElementById("prog").style.width = progress + "%";
+    }
+    function showAnswer(){
+      if (!currentTask){ toast("Сначала сгенерируй задачу"); return; }
+      document.getElementById("answer").textContent = "Нота: " + currentTask.ans;
+      document.getElementById("trainerState").textContent = "ответ";
+    }
+
+    // ---------- quiz ----------
+    const quiz = [
+      {q:"Какая система струн стандартная (от 6 к 1)?", a:["EADGBE","DADGAD","CGDAEB"], right:0},
+      {q:"Зачем нужен метроном?", a:["Чтобы ровно держать ритм","Чтобы быстрее сменить струны","Чтобы усилить звук"], right:0},
+      {q:"Что обычно лучше для метала?", a:["Хамбакеры (HH)","Нейлоновые струны","Только акустика"], right:0},
+      {q:"Классическая гитара чаще всего со струнами:", a:["Нейлон","Сталь","Металл 2 мм"], right:0},
+      {q:"Проекция звука у акустики выше, если:", a:["Корпус больше (в среднем)","Гриф короче","Педаль дисторшн включена"], right:0},
+    ];
+    let qi = 0;
+
+    function renderQuiz(){
+      const item = quiz[qi % quiz.length];
+      document.getElementById("qq").textContent = item.q;
+      const wrap = document.getElementById("opts");
+      wrap.innerHTML = "";
+      document.getElementById("qres").textContent = "";
+
+      item.a.forEach((txt, idx)=>{
+        const b = document.createElement("button");
+        b.className = idx===item.right ? "btn secondary" : "btn secondary";
+        b.textContent = txt;
+        b.onclick = ()=>checkQuiz(idx);
+        wrap.appendChild(b);
+      });
+    }
+
+    function checkQuiz(ans){
+      const item = quiz[qi % quiz.length];
+      const r = document.getElementById("qres");
+      if (ans === item.right){
+        r.innerHTML = `<span class="good">Верно ✅</span>`;
+        toast("Круто! ✅");
+      } else {
+        r.innerHTML = `<span class="bad">Неверно ❌</span> Правильный ответ: <b>${item.a[item.right]}</b>`;
+      }
+    }
+    function nextQuiz(){
+      qi++;
+      renderQuiz();
+    }
+    renderQuiz();
+  </script>
+</body>
+</html>
